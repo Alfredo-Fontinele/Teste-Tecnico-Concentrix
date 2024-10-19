@@ -29,7 +29,7 @@
 - Clone
 
 ```bash
-    git clone https://github.com/Alfredo-Fontinele/Teste-Tecnico-Concentrix
+    git clone https://github.com/Alfredo-Fontinele/Teste-Tecnico-Concentrix.git
 ```
 
 - instale as dependências
