@@ -53,11 +53,11 @@ export const SectionItems = () => {
         <div className="flex flex-col gap-2 h-full w-full">
           <span className="text-sm">Ordenar por Data:</span>
           <Select
-            onChange={(e) =>
-              changeOptionToOderItems(
-                e.target.value as OrderItemByCreationOption
-              )
-            }
+            onChange={(e) => {
+              const value = e.target.value as OrderItemByCreationOption
+              changeOptionToOderItems(value)
+            }}
+            defaultValue={"default"}
             className="w-full"
           >
             {optionsOrderItemsByCreationDate.map((option) => (

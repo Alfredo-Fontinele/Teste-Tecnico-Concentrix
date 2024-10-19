@@ -1,7 +1,7 @@
-import { Item } from "../context/app-context"
+import { Item, ItemPriority } from "../context/app-context"
 
 export const orderItemsByPriority = (items: Item[]): Item[] => {
-  const priorityOrder: { [key: string]: number } = {
+  const priorityOrder: Record<ItemPriority, number> = {
     high: 1,
     medium: 2,
     low: 3,

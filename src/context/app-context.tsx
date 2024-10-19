@@ -17,7 +17,7 @@ export type Item = {
   createdAt: Date
 }
 
-export type OrderItemByCreationOption = "recent" | "old"
+export type OrderItemByCreationOption = "default" | "recent" | "old"
 
 type OptionCheckboxPriority = {
   text: string
@@ -75,8 +75,10 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
   const [
     optionToOrderItemsByCreationDate,
     setOptionToOrderItemsByCreationDate,
-  ] = useState<OrderItemByCreationOption>("recent")
-  const [optionsCheckboxPriority, setOptionsCheckboxPriority] = useState<ItemPriority[]>([]) // prettier-ignore
+  ] = useState<OrderItemByCreationOption>("default")
+  const [optionsCheckboxPriority, setOptionsCheckboxPriority] = useState<
+    ItemPriority[]
+  >([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [inputSearchName, setInputSearchName] = useState("")
   const [items, setItems] = useState<Item[]>([])
@@ -90,6 +92,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
   }
 
   const optionsOrderItemsByCreationDate: OptionToOrderItemsByCreationDate[] = [
+    { text: "Selecione uma opção", option: "default" },
     { text: "Mais recente", option: "recent" },
     { text: "Mais antigo", option: "old" },
   ]
@@ -172,13 +175,23 @@ export const AppProvider = ({ children }: React.PropsWithChildren) => {
       currentPage * PAGE_SIZE_ITEMS
     )
 
-    const effectiveItemsByPriority = orderItemsByPriority(paginatedItems)
-
-    const effectiveItems = effectiveItemsByPriority.filter(
+    const effectiveItems = paginatedItems.filter(
       (item) =>
         item.name.toLowerCase().includes(inputSearchName.toLowerCase()) ||
         item.description.toLowerCase().includes(inputSearchName.toLowerCase())
     )
+
+    if (optionToOrderItemsByCreationDate === "default") {
+      if (optionsCheckboxPriority.length) {
+        const filteredByPriority = effectiveItems.filter((item) =>
+          optionsCheckboxPriority.includes(item.priority)
+        )
+
+        return orderItemsByPriority(filteredByPriority)
+      }
+
+      return orderItemsByPriority(effectiveItems)
+    }
 
     if (optionsCheckboxPriority.length) {
       const filteredByPriority = effectiveItems.filter((item) =>
