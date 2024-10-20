@@ -6,9 +6,10 @@ import { ItemPriority, useAppContext } from "../../context/app-context"
 export const createItemSchema = yup.object({
   name: yup
     .string()
+    .trim()
     .required("nome é obrigatório")
     .min(3, "nome deve ter no mínimo 3 caracteres"),
-  description: yup.string().required("descrição é obrigatória"),
+  description: yup.string().trim().required("descrição é obrigatória"),
   priority: yup
     .string()
     .oneOf(["low", "medium", "high"] as ItemPriority[])
